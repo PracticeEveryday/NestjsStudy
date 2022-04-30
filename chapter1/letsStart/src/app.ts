@@ -2,7 +2,7 @@
 
 import * as express from "express";
 // cat이라는 데이터 베이스에서 가져왔다고 생각할 것
-import { Cat, CatType } from "./app.model";
+import catsRouter from "./cats/cats.route";
 const app: express.Express = express();
 
 const data: number[] = [1, 2, 3, 4];
@@ -17,71 +17,10 @@ app.use((req, res, next) => {
   next();
 });
 
-// READ 고양이 전체 데이터 다 조회
-app.get("/cats", (req, res) => {
-  // mySQL mongoDB라고 생각하자
-  try {
-    const cats = Cat;
-    res.status(200).send({
-      status: true,
-      data: {
-        cats,
-      },
-    });
-  } catch (error: any) {
-    res.status(400).send({
-      status: false,
-      message: error.message,
-    });
-  }
-});
-
-// READ 특정 고양이 데이터 조회
-// 동적 라우팅
-app.get("/cats/:id", (req, res) => {
-  // mySQL mongoDB라고 생각하자
-  try {
-    const id = req.params.id;
-
-    const cats = Cat.find((cat) => {
-      return cat.id === id;
-    });
-
-    res.status(200).send({
-      status: true,
-      data: {
-        cats,
-      },
-    });
-  } catch (error: any) {
-    res.status(400).send({
-      status: false,
-      message: error.message,
-    });
-  }
-});
-
 // json middleware
 // express 에서 제공하는 body값 읽을 수 있게 하는 미들웨어
 app.use(express.json());
-
-// CREATE 새로운 고양이 추가
-// 실제 db 없으니 저장되지 않음
-app.post("/cats", (req, res) => {
-  try {
-    const data = req.body;
-    Cat.push(data);
-    res.status(200).send({
-      status: "succ",
-      data: { data },
-    });
-  } catch (error: any) {
-    res.status(400).send({
-      status: false,
-      message: error.message,
-    });
-  }
-});
+app.use(catsRouter);
 
 // error 처리 미들웨어가 될 수 있음..
 // 404 middleware
