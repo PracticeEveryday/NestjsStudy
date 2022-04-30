@@ -1,24 +1,17 @@
-// TS에서 express 돌리기
+// 데이터 모킹 : 테스트를 실행하기 위해 실제 데이터가 아닌 개발자가 필요에 의해서 만든 데이터임.
+
 import * as express from "express";
-// app express의 인스턴스 = 서버의 역할
+// cat이라는 데이터 베이스에서 가져왔다고 생각할 것
+import { Cat, CatType } from "./app.model";
 const app: express.Express = express();
-const port: number = 8000;
 
-// /로 요청하면 어떻게 할거니
-// 라우터: 프론트엔드랑 클라이언트가 백엔드에게 요청 할때 http의 get으로 '/' 이 경로로 요청했어
-// 라우터릉 통해 받고
+const data: number[] = [1, 2, 3, 4];
+
+// front나 client가 endpoint에서 겟을 요청 했을 때 그에 대한 응답으로 db의 정보를 가져다가 준것!!
 app.get("/", (req: express.Request, res: express.Response) => {
-  // 어디서 누가 요청했는지
-
-  // req 응답 받기 -> get ~~ body~~ 던져주고 쭉 가공 후
-  // console.log(req);
-
-  // 응답 보내주기
-  // '/'에 요청하면 이런 식으로 데이터 줘서 front가 처리하는 것임
-  res.send({ name: "kim", age: 28 });
+  res.send({ cats: Cat });
 });
 
-// 서버 열자
-app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`);
+app.listen(8000, () => {
+  console.log("server on..");
 });
