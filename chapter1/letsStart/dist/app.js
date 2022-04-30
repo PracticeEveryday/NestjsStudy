@@ -9,19 +9,59 @@ app.use(function (req, res, next) {
     console.log("this is logging middleware");
     next();
 });
-app.get("/cats/som", function (req, res, next) {
-    console.log(req.rawHeaders[1]);
-    console.log("this is som middleware");
-    next();
+app.get("/cats", function (req, res) {
+    try {
+        var cats = app_model_1.Cat;
+        res.status(200).send({
+            status: true,
+            data: {
+                cats: cats,
+            },
+        });
+    }
+    catch (error) {
+        res.status(400).send({
+            status: false,
+            message: error.message,
+        });
+    }
 });
-app.get("/", function (req, res) {
-    res.send({ cats: app_model_1.Cat });
+app.get("/cats/:id", function (req, res) {
+    try {
+        var id_1 = req.params.id;
+        var cats = app_model_1.Cat.find(function (cat) {
+            return cat.id === id_1;
+        });
+        res.status(200).send({
+            status: true,
+            data: {
+                cats: cats,
+            },
+        });
+    }
+    catch (error) {
+        res.status(400).send({
+            status: false,
+            message: error.message,
+        });
+    }
 });
-app.get("/cats/blue", function (req, res) {
-    res.send({ cats: app_model_1.Cat, blue: app_model_1.Cat[0] });
-});
-app.get("/cats/som", function (req, res) {
-    res.send({ som: app_model_1.Cat[1] });
+app.use(express.json());
+app.post("/cats", function (req, res) {
+    try {
+        var data_1 = req.body;
+        app_model_1.Cat.push(data_1);
+        res.status(200).send({
+            status: "succ",
+            data: { data: data_1 },
+        });
+    }
+    catch (error) {
+        res.status(400).send({
+            status: false,
+            message: error.message,
+        });
+    }
 });
 app.use(function (req, res) {
     console.log("this is error middleware");

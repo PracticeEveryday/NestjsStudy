@@ -17,31 +17,74 @@ app.use((req, res, next) => {
   next();
 });
 
-// cats/blue는 안찍힘
-app.get("/cats/som", (req, res, next) => {
-  console.log(req.rawHeaders[1]);
-  console.log("this is som middleware");
-  // next() 필수!!
-  next();
+// READ 고양이 전체 데이터 다 조회
+app.get("/cats", (req, res) => {
+  // mySQL mongoDB라고 생각하자
+  try {
+    const cats = Cat;
+    res.status(200).send({
+      status: true,
+      data: {
+        cats,
+      },
+    });
+  } catch (error: any) {
+    res.status(400).send({
+      status: false,
+      message: error.message,
+    });
+  }
 });
 
-// front나 client가 endpoint에서 겟을 요청 했을 때 그에 대한 응답으로 db의 정보를 가져다가 준것!!
-app.get("/", (req: express.Request, res: express.Response) => {
-  // 요청이 어디서 왔는가 찍어보자
-  res.send({ cats: Cat });
+// READ 특정 고양이 데이터 조회
+// 동적 라우팅
+app.get("/cats/:id", (req, res) => {
+  // mySQL mongoDB라고 생각하자
+  try {
+    const id = req.params.id;
+
+    const cats = Cat.find((cat) => {
+      return cat.id === id;
+    });
+
+    res.status(200).send({
+      status: true,
+      data: {
+        cats,
+      },
+    });
+  } catch (error: any) {
+    res.status(400).send({
+      status: false,
+      message: error.message,
+    });
+  }
 });
 
-app.get("/cats/blue", (req: express.Request, res: express.Response) => {
-  res.send({ cats: Cat, blue: Cat[0] });
-});
+// json middleware
+// express 에서 제공하는 body값 읽을 수 있게 하는 미들웨어
+app.use(express.json());
 
-// 라우터 => cl font가 http get으로 endpoint로 넘겨주면
-// back이 db 에서 데이터 가져 온 후 코드(비즈니스 로직)를 실행하며 데이터를 가공 해 res.send로 넘겨줌!!
-app.get("/cats/som", (req: express.Request, res: express.Response) => {
-  res.send({ som: Cat[1] });
+// CREATE 새로운 고양이 추가
+// 실제 db 없으니 저장되지 않음
+app.post("/cats", (req, res) => {
+  try {
+    const data = req.body;
+    Cat.push(data);
+    res.status(200).send({
+      status: "succ",
+      data: { data },
+    });
+  } catch (error: any) {
+    res.status(400).send({
+      status: false,
+      message: error.message,
+    });
+  }
 });
 
 // error 처리 미들웨어가 될 수 있음..
+// 404 middleware
 app.use((req, res) => {
   console.log("this is error middleware");
   res.send({ error: "404 not found" });
