@@ -2,11 +2,9 @@
 // decorator타입 => 함수나 클래스에 기능을 첨가해주는 것
 // 브라우저가 http 요청이 들어오면 controller가 받아서 응답을 하는 곳임.
 
-import { Body, Controller, Get, Param, Req } from '@nestjs/common';
+import { Controller, Get } from '@nestjs/common';
 import { AppService } from './app.service';
 import { CatsService } from './cats/cats.service';
-
-import { Request } from 'express';
 
 @Controller()
 export class AppController {
@@ -16,7 +14,7 @@ export class AppController {
     private readonly catsService: CatsService,
   ) {}
 
-  @Get('hello/:id/:name')
+  @Get()
   getHello(): string {
     return this.catsService.hiCatServiceProduct();
   }

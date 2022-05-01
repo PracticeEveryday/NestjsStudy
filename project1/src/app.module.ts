@@ -1,22 +1,28 @@
-import { Module } from '@nestjs/common';
+import { Module, MiddlewareConsumer, NestModule } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { CatsModule } from './cats/cats.module';
-import { UsersModule } from './users/users.module';
-import { CatsService } from './cats/cats.service';
-
+import { LoggerMiddleware } from './logger.middleware';
 @Module({
   // CatsModule + UsersModule 합쳐져서 AppModuel이 실행되서 나감
   // module을 가져오는 역할 export를 한 상품들을 쓸 수가 있음.
   // CatsModule + UsersModule의 제품을 AppController, AppService에서 쓸 수 있음.
-  imports: [CatsModule, UsersModule],
+  imports: [CatsModule],
   // 소비자 AppController가 여기서 AppService에서 받아감
   // controller는 여기서 providers가 제공하는 주입할 수 있는 것을 받아서 씀
   controllers: [AppController],
   // 제품의 공급자 like 사업자 등록
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    // cats router에 바인딩
+    // forRoutes('*') 전체 endpoint looger middleware 수행
+    consumer.apply(LoggerMiddleware).forRoutes('*');
+  }
+}
+{
+}
 
 // 객체지향 프로그램의 핵심 목표가 실생활과 유사하게 코드를 짠다!
 // 실생활에서 일어나느 공급자 소비자 관계 제품 이런 것들이 nestjs에서 묘사가 되어있음
