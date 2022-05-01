@@ -7,6 +7,8 @@ import {
   Post,
   Put,
   UseFilters,
+  Param,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { CatsService } from './cats.service';
 import { HttpExceptionFilter } from '../http-exception.filter';
@@ -31,7 +33,11 @@ export class CatsController {
   }
   // cats/:id
   @Get(':id')
-  getOneCat() {
+  getOneCat(@Param('id', ParseIntPipe) param: number) {
+    // pipes로 형변환이 가능 number로
+    // piptes가 자동으로 Validation error까지 내줌!! 'abc' string으로 나오면!!
+    console.log(param);
+    console.log(typeof param);
     return 'one cat';
   }
 
@@ -55,3 +61,7 @@ export class CatsController {
     return 'delete cat';
   }
 }
+/**
+ * Pipe는 클라이언트 요청에서 들어오는 데이터를 유효성 검사 및 변환을 수행하여 서버가 원하는
+ * 데이터를 얻을 수 있도록 도와주는 클래스!!
+ */
