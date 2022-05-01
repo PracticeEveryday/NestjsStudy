@@ -1,14 +1,44 @@
 import * as express from "express";
 import { catRouter } from "./cats/cats.route";
 
-const app: express.Application = express();
+class Server {
+  app: express.Application;
+  constructor() {
+    const app: express.Application = express();
+    this.app = app;
+  }
 
-app.get("/", (req, res) => {
-  res.status(200).json({ status: "succ" });
-});
+  private setRouter() {
+    this.app.get("/", (req, res) => {
+      res.status(200).json({ status: "succ" });
+    });
+    this.app.use(catRouter);
+  }
 
-app.use(express.json());
+  private setMiddleware() {
+    this.app.use((req, res, next) => {
+      console.log(req.rawHeaders[1]);
+      console.log("this is logging middleware");
+      // next() 필수!!
+      next();
+    });
+    this.app.use(express.json());
 
-app.use(catRouter);
+    this.setRouter();
 
-app.listen(3000, () => console.log("3000번 포트 온"));
+    this.app.use((req, res) => {
+      console.log("this is error middleware");
+      res.send({ error: "404 not found" });
+    });
+  }
+
+  public init() {
+    this.setMiddleware;
+    this.app.listen(8000, () => {
+      console.log("8000번 포트 온");
+    });
+  }
+}
+
+const server = new Server();
+server.init();
