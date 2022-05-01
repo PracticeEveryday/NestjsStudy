@@ -4,14 +4,20 @@
 
 import { Body, Controller, Get, Param, Req } from '@nestjs/common';
 import { AppService } from './app.service';
+import { CatsService } from './cats/cats.service';
+
 import { Request } from 'express';
 
 @Controller()
 export class AppController {
-  constructor(private readonly appService: AppService) {}
+  constructor(
+    private readonly appService: AppService,
+    // dependency injection이 안 되 있으면 사용 할 수가 없음.
+    private readonly catsService: CatsService,
+  ) {}
 
   @Get('hello/:id/:name')
   getHello(): string {
-    return this.appService.getHello();
+    return this.catsService.hiCatServiceProduct();
   }
 }
