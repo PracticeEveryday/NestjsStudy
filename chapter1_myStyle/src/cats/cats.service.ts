@@ -27,4 +27,15 @@ export class catService {
     });
     return result;
   };
+
+  static modifyPartial = (id: string, updateData: object) => {
+    let result;
+    Cat.filter((cat) => {
+      if (cat.id === id) {
+        cat = { ...cat, ...updateData };
+        result = cat;
+      }
+    });
+    return result;
+  };
 }

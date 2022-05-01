@@ -29,4 +29,11 @@ catRouter.put("/cats/:id", (req, res) => {
   res.status(200).json(modifiedCat);
 });
 
+// Update one
+catRouter.patch("/cats/:id", (req, res) => {
+  const id: string = req.params.id;
+  const updateData: object = req.body;
+  const modifiedCat = catService.modifyPartial(id, updateData);
+  res.status(200).json(modifiedCat);
+});
 export { catRouter };

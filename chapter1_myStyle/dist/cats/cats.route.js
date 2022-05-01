@@ -22,4 +22,10 @@ catRouter.put("/cats/:id", function (req, res) {
     var modifiedCat = cats_service_1.catService.modify(id, updateData);
     res.status(200).json(modifiedCat);
 });
+catRouter.patch("/cats/:id", function (req, res) {
+    var id = req.params.id;
+    var updateData = req.body;
+    var modifiedCat = cats_service_1.catService.modifyPartial(id, updateData);
+    res.status(200).json(modifiedCat);
+});
 //# sourceMappingURL=cats.route.js.map
