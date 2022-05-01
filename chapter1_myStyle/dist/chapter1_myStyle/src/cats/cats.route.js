@@ -11,11 +11,6 @@ catRouter.get("/cats/:id", function (req, res) {
     var cat = cats_service_1.catService.findcat(id);
     res.status(200).json(cat);
 });
-catRouter.post("/cats", function (req, res) {
-    var newCatData = req.body;
-    var newCat = cats_service_1.catService.create(newCatData);
-    res.status(200).json(newCat);
-});
 catRouter.put("/cats/:id", function (req, res) {
     var id = req.params.id;
     var updateData = req.body;

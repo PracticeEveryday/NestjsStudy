@@ -7,6 +7,8 @@ app.get("/", (req, res) => {
   res.status(200).json({ status: "succ" });
 });
 
+app.use(express.json());
+
 app.use(catRouter);
 
 app.listen(3000, () => console.log("3000번 포트 온"));

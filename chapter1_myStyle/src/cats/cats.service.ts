@@ -11,4 +11,20 @@ export class catService {
     const cat = Cat.filter((cat) => cat.id === id);
     return cat;
   };
+
+  static create = (newCatData: CatType) => {
+    Cat.push(newCatData);
+    return Cat;
+  };
+
+  static modify = (id: string, updateData: CatType) => {
+    let result;
+    Cat.filter((cat) => {
+      if (cat.id === id) {
+        cat = updateData;
+        result = cat;
+      }
+    });
+    return result;
+  };
 }
