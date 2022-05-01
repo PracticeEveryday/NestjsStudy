@@ -23,7 +23,7 @@ var Server = (function () {
         this.setRouter();
         this.app.use(function (req, res) {
             console.log("this is error middleware");
-            res.send({ error: "404 not found" });
+            res.json({ error: "404 not found" });
         });
     };
     Server.prototype.init = function () {

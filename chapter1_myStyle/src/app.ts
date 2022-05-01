@@ -28,7 +28,7 @@ class Server {
 
     this.app.use((req, res) => {
       console.log("this is error middleware");
-      res.send({ error: "404 not found" });
+      res.json({ error: "404 not found" });
     });
   }
 
