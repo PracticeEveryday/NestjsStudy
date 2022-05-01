@@ -36,4 +36,11 @@ catRouter.patch("/cats/:id", (req, res) => {
   const modifiedCat = catService.modifyPartial(id, updateData);
   res.status(200).json(modifiedCat);
 });
+
+// delete
+catRouter.delete("/cats/:id", (req, res) => {
+  const id: string = req.params.id;
+  const deleteData = catService.delete(id);
+  res.status(200).json(deleteData);
+});
 export { catRouter };

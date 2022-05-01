@@ -6,4 +6,5 @@ export declare class catService {
     static create: (newCatData: CatType) => CatType[];
     static modify: (id: string, updateData: CatType) => undefined;
     static modifyPartial: (id: string, updateData: object) => undefined;
+    static delete: (id: string) => CatType[];
 }

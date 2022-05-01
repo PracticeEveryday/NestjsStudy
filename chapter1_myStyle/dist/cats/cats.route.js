@@ -28,4 +28,9 @@ catRouter.patch("/cats/:id", function (req, res) {
     var modifiedCat = cats_service_1.catService.modifyPartial(id, updateData);
     res.status(200).json(modifiedCat);
 });
+catRouter.delete("/cats/:id", function (req, res) {
+    var id = req.params.id;
+    var deleteData = cats_service_1.catService.delete(id);
+    res.status(200).json(deleteData);
+});
 //# sourceMappingURL=cats.route.js.map

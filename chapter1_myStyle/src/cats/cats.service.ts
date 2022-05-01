@@ -38,4 +38,14 @@ export class catService {
     });
     return result;
   };
+
+  static delete = (id: string) => {
+    let result: CatType[] = [];
+    Cat.filter((cat) => {
+      if (cat.id !== id) {
+        result.push(cat);
+      }
+    });
+    return result;
+  };
 }

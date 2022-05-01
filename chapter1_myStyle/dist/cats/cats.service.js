@@ -49,6 +49,15 @@ var catService = (function () {
         });
         return result;
     };
+    catService.delete = function (id) {
+        var result = [];
+        cats_model_1.Cat.filter(function (cat) {
+            if (cat.id !== id) {
+                result.push(cat);
+            }
+        });
+        return result;
+    };
     return catService;
 }());
 exports.catService = catService;
