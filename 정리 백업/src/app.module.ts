@@ -1,14 +1,9 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { CatsModule } from './cats/cats.module';
-import { UsersModule } from './users/users.module';
 
 @Module({
-  // CatsModule + UsersModule 합쳐져서 AppModuel이 실행되서 나감
-  // module을 가져오는 역할 export를 한 상품들을 쓸 수가 있음.
-  // CatsModule + UsersModule의 제품을 AppController, AppService에서 쓸 수 있음.
-  imports: [CatsModule, UsersModule],
+  imports: [],
   // 소비자 AppController가 여기서 AppService에서 받아감
   controllers: [AppController],
   // 제품의 공급자 like 사업자 등록
